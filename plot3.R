@@ -15,19 +15,25 @@
 # pryr (optional)                                 #
 ###################################################
 
+# For timing script execution:
+pmt <- proc.time()
+
 # Set working directory:
 setwd("~/Coursera/ExData_Plotting1")
 
 # Download and unzip dataset. Used original dataset from UC Irvine Machine Learning Repository:
-fileUrl <- "https://archive.ics.uci.edu/ml/machine-learning-databases/00235/household_power_consumption.zip"
-download.file(fileUrl, "~/Coursera/ExData_Plotting1/dataset.zip", method="wget")
-unzip("dataset.zip")
+if(!file.exists("household_power_consumption.txt")){
+  fileUrl <- "https://archive.ics.uci.edu/ml/machine-learning-databases/00235/household_power_consumption.zip"
+  download.file(fileUrl, "~/Coursera/ExData_Plotting1/dataset.zip", method="wget")
+  unzip("dataset.zip")
+}
 
 # Read *only* data within specified timeframe:
 library(sqldf)
 data<- read.csv.sql("household_power_consumption.txt", 
                     sql = "select * from file where Date in ('1/2/2007', '2/2/2007')", sep=";")
 closeAllConnections()
+# See examples on p. 8 of http://cran.r-project.org/web/packages/sqldf/sqldf.pdf
 
 # Check the size of the dataset:
 library(pryr)
@@ -48,3 +54,6 @@ legend("topright",  legend=c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3
 #legend("topright",  legend=colnames(data[, c(7, 8,9)]), lty=c(1,1,1),
 #       col=c("black", "red", "blue"))
 dev.off()
+
+# how much time elapsed
+print(proc.time() - pmt)
