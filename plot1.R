@@ -15,19 +15,24 @@
 # pryr (optional)                                 #
 ###################################################
 
+# For timing script execution:
+pmt <- proc.time()
+
 # Set working directory:
 setwd("~/Coursera/ExData_Plotting1")
 
 # Download and unzip dataset. Used original dataset from UC Irvine Machine Learning Repository:
+if(!file.exists("household_power_consumption.txt")){
 fileUrl <- "https://archive.ics.uci.edu/ml/machine-learning-databases/00235/household_power_consumption.zip"
 download.file(fileUrl, "~/Coursera/ExData_Plotting1/dataset.zip", method="wget")
 unzip("dataset.zip")
+}
 
 # Read *only* data within specified timeframe:
 library(sqldf)
 data<- read.csv.sql("household_power_consumption.txt", 
                     sql = "select * from file where Date in ('1/2/2007', '2/2/2007')", sep=";")
-closeAllConnections()
+#closeAllConnections()
 # See examples on p. 8 of http://cran.r-project.org/web/packages/sqldf/sqldf.pdf
 
 # Check the size of the dataset:
@@ -43,3 +48,5 @@ dev.off()
 which(Global_active_power=="?") # integer(0)
 detach(data) # Detach database
 
+# how much time elapsed
+print(proc.time() - pmt)
