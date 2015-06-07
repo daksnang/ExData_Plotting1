@@ -32,7 +32,7 @@ if(!file.exists("household_power_consumption.txt")){
 library(sqldf)
 data<- read.csv.sql("household_power_consumption.txt", 
                     sql = "select * from file where Date in ('1/2/2007', '2/2/2007')", sep=";")
-closeAllConnections()
+#closeAllConnections()
 # See examples on p. 8 of http://cran.r-project.org/web/packages/sqldf/sqldf.pdf
 
 # Check the size of the dataset:
